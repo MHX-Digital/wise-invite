@@ -5,9 +5,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+export const dynamic = 'force-dynamic'
+
 export default function RegisterPage() {
   const router = useRouter()
-  const supabase = createClient()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -19,6 +20,7 @@ export default function RegisterPage() {
     setLoading(true)
     setError(null)
 
+    const supabase = createClient()
     const { data, error: signUpError } = await supabase.auth.signUp({ email, password })
 
     if (signUpError || !data.user) {
@@ -27,7 +29,6 @@ export default function RegisterPage() {
       return
     }
 
-    // Create org + profile via API
     const res = await fetch('/api/auth/setup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -49,7 +50,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-900">wise-invite</h1>
-          <p className="text-gray-500 text-sm mt-1">Crie sua conta grátis</p>
+          <p className="text-gray-500 text-sm mt-1">Crie sua conta gratis</p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 space-y-4">
@@ -92,7 +93,7 @@ export default function RegisterPage() {
               required
               minLength={6}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-              placeholder="Mínimo 6 caracteres"
+              placeholder="Minimo 6 caracteres"
             />
           </div>
 
@@ -101,12 +102,12 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full bg-violet-600 text-white rounded-lg py-2 text-sm font-medium hover:bg-violet-700 disabled:opacity-50 transition-colors"
           >
-            {loading ? 'Criando conta...' : 'Criar conta grátis'}
+            {loading ? 'Criando conta...' : 'Criar conta gratis'}
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-4">
-          Já tem conta?{' '}
+          Ja tem conta?{' '}
           <Link href="/login" className="text-violet-600 font-medium hover:underline">
             Entrar
           </Link>

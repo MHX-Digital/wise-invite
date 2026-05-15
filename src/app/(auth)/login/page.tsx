@@ -5,9 +5,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+export const dynamic = 'force-dynamic'
+
 export default function LoginPage() {
   const router = useRouter()
-  const supabase = createClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -18,6 +19,7 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
 
+    const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
@@ -79,9 +81,9 @@ export default function LoginPage() {
         </form>
 
         <p className="text-center text-sm text-gray-500 mt-4">
-          Ainda não tem conta?{' '}
+          Ainda nao tem conta?{' '}
           <Link href="/register" className="text-violet-600 font-medium hover:underline">
-            Criar conta grátis
+            Criar conta gratis
           </Link>
         </p>
       </div>
